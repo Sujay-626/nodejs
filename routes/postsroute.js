@@ -1,10 +1,13 @@
-const {response} = require('express')
 const express=require('express');
 const router=express.Router();
+//importing multer package
+const multer=require('multer');
+const upload=multer({dest:'uploads/'});
 //importing json file
-const abc=require('../posts.json');
+const posts=require('../posts.json');
 //importing mongoose modules
 const Post=require('../models/post');
+
 
 router.post('/', async (req,res)=>{
 	const posts = new Post({
@@ -31,17 +34,25 @@ router.get('/',async (req,res)=>{
 		res.send(err.message);
 	}
 })
-/*router.get('/',(req,res)=>{
-	res.send(posts);
-});
-router.post('/',(req,res)=>{
-	posts.push(req.body);
-	res.send(posts);
+
+router.post('/uploads',upload.single('name'),function(req,res){
+	res.send("saved");
 });
 
-router.delete('/:id',(req,res)=>{
-	posts.splice(req.params.id,1);
-	res.send(posts);
-})
-//exporting router */
+router.post('/uploads/group',upload.array('name'),function(req,res){
+	res.send("saved");
+});
+// router.get('/',(req,res)=>{
+// 	res.send(posts);
+// });
+// router.post('/',(req,res)=>{
+// 	posts.push(req.body);
+// 	res.send(posts);
+// });
+
+// router.delete('/:id',(req,res)=>{
+// 	posts.splice(req.params.id,1);
+// 	res.send(posts);
+// })
+//exporting router 
 module.exports=router;

@@ -11,12 +11,13 @@ app.use(bodyparser.json());
 //body-parser for json files
 app.use('/posts',posts_route)
 
-app.get('/',(req,res)=>{
-	res.send("Hello Sujay");
+mongoose.connect("mongodb://127.0.0.1/Sujay",
+ {useNewUrlParser: true},()=>{
+	console.log("Connected to db");
 });
 
-mongoose.connect("mongodb://localhost:27017/Sujay", {useNewUrlParser: true}, ()=>{
-	console.log("Connected to db");
+app.get('/',(req,res)=>{
+	res.send("Hello Sujay");
 });
 
 app.listen(3030,()=>{
